@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAUDHARYRAJ DEMO</title>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+
+    body{
+      background:linear-gradient(135deg,#0f172a,#1e1b4b,#312e81);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      color:white;
+      padding:20px;
+    }
+
+    .app{
+      width:360px;
+      background:rgba(17,24,39,.95);
+      border-radius:25px;
+      padding:22px;
+      box-shadow:0 0 25px rgba(59,130,246,.5);
+      animation:glow 3s infinite alternate;
+    }
+
+    @keyframes glow{
+      from{box-shadow:0 0 15px rgba(59,130,246,.4)}
+      to{box-shadow:0 0 35px rgba(168,85,247,.8)}
+    }
+
+    h1{text-align:center;color:#38bdf8;margin-bottom:8px;font-size:28px}
+    p{text-align:center;color:#cbd5e1;margin-bottom:18px;font-size:14px}
+
+    input{
+      width:100%;
+      padding:12px;
+      margin:8px 0;
+      border:none;
+      border-radius:12px;
+      background:#e5e7eb;
+      color:#111827;
+      font-size:15px;
+    }
+
+    button{
+      width:100%;
+      padding:13px;
+      margin-top:10px;
+      border:none;
+      border-radius:12px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.3s;
+    }
+
+    .login{background:#2563eb;color:white}
+    .register{background:#16a34a;color:white}
+    .deposit{background:#22c55e;color:white}
+    .withdraw{background:#ea580c;color:white}
+
+    button:hover{transform:scale(1.03)}
+
+    .hidden{display:none}
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:15px;
+    }
+
+    .balance{
+      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      padding:18px;
+      border-radius:18px;
+      text-align:center;
+      margin-bottom:18px;
+    }
+
+    .balance h2{font-size:16px;margin-bottom:8px}
+    .balance .amount{font-size:30px;font-weight:bold}
+
+    .plan{
+      background:#1e293b;
+      border:2px solid rgba(255,255,255,.08);
+      padding:16px;
+      border-radius:18px;
+      margin-bottom:14px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .plan::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);
+      transform:translateX(-100%);
+      animation:shine 3s infinite;
+    }
+
+    @keyframes shine{
+      100%{transform:translateX(100%)}
+    }
+
+    .plan h3{margin-bottom:8px;color:#facc15}
+    .reward{color:#86efac;font-size:13px;margin:6px 0 12px}
+
+    .buy{background:#7c3aed;color:white}
+
+    .nav{
+      display:flex;
+      justify-content:space-around;
+      margin-top:18px;
+      padding-top:12px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:#cbd5e1;
+      font-size:13px;
+    }
+
+    .small{font-size:11px;color:#94a3b8;text-align:center;margin-top:12px}
+  </style>
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- HOME -->
+    <div id="home">
+      <h1>💰UNIVERS</h1>
+      <p>Neon Investment Interface</p>
+      <button class="login" onclick="showLogin()">🔐 Login</button>
+      <button class="register" onclick="showRegister()">📝 Register</button>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="registerPage" class="hidden">
+      <h1>📝 Register</h1>
+      <input id="regMobile" placeholder="Mobile Number">
+      <input id="regPass" type="password" placeholder="Password">
+      <input id="regConfirm" type="password" placeholder="Confirm Password">
+      <button class="register" onclick="registerUser()">Register</button>
+      <button class="withdraw" onclick="goHome()">⬅ Back</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginPage" class="hidden">
+      <h1>🔐 Login</h1>
+      <input id="loginMobile" placeholder="Mobile Number">
+      <input id="loginPass" type="password" placeholder="Password">
+      <button class="login" onclick="loginUser()">Login</button>
+      <button class="withdraw" onclick="goHome()">⬅ Back</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="hidden">
+      <div class="topbar">
+        <strong>📱 Dashboard</strong>
+        <button style="width:auto;padding:8px 12px" onclick="logout()">Logout</button>
+      </div>
+
+      <div class="balance">
+        <h2> Account Balance</h2>
+        <div class="amount" id="balance">₹0</div>
+      </div>
+
+      <button class="deposit" onclick="deposit()">💳 Deposit</button>
+      <button class="withdraw" onclick="withdraw()">💸 Withdraw</button>
+
+      <div class="plan">
+        <h3>⚡ Starter Plan</h3>
+        <p>Amount: ₹300</p>
+        <p class="reward">🎁 Reward 150 DAY Available</p>
+        <button class="buy" onclick="buyPlan('Starter Plan',300)">🛒 Buy Plan</button>
+      </div>
+
+      <div class="plan">
+        <h3>🚀 Silver Plan</h3>
+        <p>Amount: ₹500</p>
+        <p class="reward">🎁 Reward 300 DAY Available</p>
+        <button class="buy" onclick="buyPlan('Silver Plan',500)">🛒 Buy Plan</button>
+      </div>
+
+      <div class="plan">
+        <h3>🔥 Gold Plan</h3>
+        <p>Amount: ₹800</p>
+        <p class="reward">🎁 Reward 400 DAY Available</p>
+        <button class="buy" onclick="buyPlan('Gold Plan',800)">🛒 Buy Plan</button>
+      </div>
+
+      <div class="nav">
+        <div>🏠 Home</div>
+        <div>💼 Wallet</div>
+        <div>📦 Plans</div>
+        <div>👤 Profile</div>
+      </div>
+
+      <p class="small">BEST OF LUCK</p>
+    </div>
+  </div>
+
+  <script>
+    let balance = Number(localStorage.getItem('demo_balance') || 0);
+
+    function hideAll(){
+      ['home','registerPage','loginPage','dashboard'].forEach(id=>
+        document.getElementById(id).classList.add('hidden')
+      );
+    }
+
+    function goHome(){ hideAll(); document.getElementById('home').classList.remove('hidden'); }
+    function showRegister(){ hideAll(); document.getElementById('registerPage').classList.remove('hidden'); }
+    function showLogin(){ hideAll(); document.getElementById('loginPage').classList.remove('hidden'); }
+
+    function registerUser(){
+      const mobile = document.getElementById('regMobile').value.trim();
+      const pass = document.getElementById('regPass').value;
+      const confirm = document.getElementById('regConfirm').value;
+
+      if(!mobile || !pass || !confirm){
+        alert('सभी जानकारी भरें');
+        return;
+      }
+
+      if(pass !== confirm){
+        alert('पासवर्ड मैच नहीं कर रहा');
+        return;
+      }
+
+      localStorage.setItem('demo_mobile', mobile);
+      localStorage.setItem('demo_pass', pass);
+      alert('Register सफल हुआ, अब Login करें');
+      showLogin();
+    }
+
+    function loginUser(){
+      const mobile = document.getElementById('loginMobile').value.trim();
+      const pass = document.getElementById('loginPass').value;
+
+      if(mobile === localStorage.getItem('demo_mobile') && pass === localStorage.getItem('demo_pass')){
+        openDashboard();
+      } else {
+        alert('गलत मोबाइल नंबर या पासवर्ड');
+      }
+    }
+
+    function openDashboard(){
+      hideAll();
+      document.getElementById('dashboard').classList.remove('hidden');
+      updateBalance();
+    }
+
+    function updateBalance(){
+      document.getElementById('balance').innerText = '₹' + balance;
+      localStorage.setItem('demo_balance', balance);
+    }
+
+    function deposit(){
+      const amount = Number(prompt(' Deposit Amount लिखें'));
+      if(amount > 0){
+        balance += amount;
+        updateBalance();
+        alert('₹' + amount + '  बैलेंस में जोड़ दिया गया');
+      }
+    }
+
+    function withdraw(){
+      const amount = Number(prompt(' Withdraw Amount लिखें'));
+      if(amount > 0 && amount <= balance){
+        balance -= amount;
+        updateBalance();
+        alert('₹' + amount + '  बैलेंस से निकाल दिया गया');
+      } else {
+        alert('पर्याप्त  बैलेंस नहीं');
+      }
+    }
+
+    function buyPlan(name, amount){
+      if(balance >= amount){
+        balance -= amount;
+        updateBalance();
+        alert(name + ' सफलतापूर्वक खरीदा गया (डेमो)');
+      } else {
+        alert('पहले डेमो बैलेंस Deposit करें');
+      }
+    }
+
+    goHome();
+  </script>
+</body>
+</html>
